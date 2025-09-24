@@ -5,11 +5,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class WeatherResponse {
+
+    @SerializedName("main")
     private MainApi main;
+
+    @SerializedName("weather")
     private List<Weather> weather;
 
     @SerializedName("name")
     private String nome;
+
+    @SerializedName("wind")
+    private Wind wind;
 
     public MainApi getMain() {
         return main;
@@ -23,6 +30,10 @@ public class WeatherResponse {
         return nome;
     }
 
+    public Wind getWind() {
+        return wind;
+    }
+
     public void setMain(MainApi main) {
         this.main = main;
     }
@@ -33,5 +44,9 @@ public class WeatherResponse {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
     }
 }

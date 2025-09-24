@@ -1,11 +1,11 @@
 package com.example.weatherapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,10 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnBuscarCidade;
     private EditText nomeCidade;
     private RecyclerView listaInfoCidade;
-    private TextView tvTemp;
 
     private InfoClimaAdapter adapter;
-    private List<String> dadosLista = new ArrayList<>();
+    private List<City> dadosLista = new ArrayList<>();
 
     private final String API_KEY = "25df25ec8ad5f75a02213a1b324ad0f2";
 
@@ -51,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
         btnBuscarCidade = findViewById(R.id.btnBuscarCidade);
         nomeCidade = findViewById(R.id.nomeCidadeText);
         listaInfoCidade = findViewById(R.id.listaInfoCidade);
-//        tvTemp = findViewById(R.id.tvTemp);
 
-        // RecyclerView
         listaInfoCidade.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new InfoClimaAdapter(dadosLista);
+        adapter = new InfoClimaAdapter(dadosLista, new InfoClimaAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(City item) {
+                abrirTelaDetalhes(item);
+            }
+        });
         listaInfoCidade.setAdapter(adapter);
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.openweathermap.org/")
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherService service = retrofit.create(WeatherService.class);
 
-
         btnBuscarCidade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(cidade.isEmpty()){
                     Toast.makeText(MainActivity.this, "Por favor preencha o campo do nome da cidade.",Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 Call<WeatherResponse> call = service.getCurrentWeather(
@@ -85,23 +87,36 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                         if (response.isSuccessful()) {
                             WeatherResponse weatherData = response.body();
-                            if (weatherData != null && weatherData.getMain() != null) {
-                                dadosLista.clear();
+                            // Verificações adicionais de segurança para evitar NullPointerException
+                            if (weatherData != null && weatherData.getMain() != null && weatherData.getWeather() != null && !weatherData.getWeather().isEmpty()) {
 
-                                dadosLista.add("Cidade: " + weatherData.getNome());
-                                dadosLista.add("Temperatura: " + weatherData.getMain().getTemp() + "°C");
-                                dadosLista.add("Descrição: " + weatherData.getWeather().get(0).getDescription());
+                                // Acesso seguro aos dados
+                                String nomeCidadeStr = weatherData.getNome() != null ? weatherData.getNome() : "Não Encontrado";
 
-                                adapter.notifyDataSetChanged();
-                                // Exibe a temperatura na tela
-//                                String temp = String.valueOf(weatherData.getMain().getTemp());
-//                                tvTemp.setText("Temperatura: " + temp + "°C");
+                                String temperaturaStr = String.valueOf(weatherData.getMain().getTemp());
+                                String descricaoStr = weatherData.getWeather().get(0).getDescription();
+
+                                // CORREÇÃO: Chame os métodos corretos de sua classe MainApi e Wind
+                                String umidadeStr = (weatherData.getMain() != null) ? String.valueOf(weatherData.getMain().getUmidade()) : "N/A";
+                                String pressaoStr = (weatherData.getMain() != null) ? String.valueOf(weatherData.getMain().getPressao()) : "N/A";
+                                String ventoStr = (weatherData.getWind() != null) ? String.valueOf(weatherData.getWind().getSpeed()) : "N/A";
+
+                                City novaCidade = new City(
+                                        nomeCidadeStr,
+                                        temperaturaStr,
+                                        descricaoStr,
+                                        umidadeStr,
+                                        pressaoStr,
+                                        ventoStr
+                                );
+
+                                dadosLista.add(0, novaCidade);
+                                adapter.notifyItemInserted(0);
                             }
                             else {
                                 Toast.makeText(MainActivity.this, "Dados da API inválidos.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            // Exibe uma mensagem de erro se a cidade não for encontrada
                             Log.e("API_CALL", "Erro na resposta: " + response.code());
                             Toast.makeText(MainActivity.this, "Cidade não encontrada. Tente novamente.", Toast.LENGTH_SHORT).show();
                         }
@@ -109,12 +124,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                        // Exibe uma mensagem de erro em caso de falha na conexão
                         Log.e("API_CALL", "Falha na requisição: " + t.getMessage());
                         Toast.makeText(MainActivity.this, "Falha na conexão. Verifique sua internet.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+    }
+
+    private void abrirTelaDetalhes(City item) {
+        Intent intent = new Intent(MainActivity.this, DetalhesActivity.class);
+        intent.putExtra("city_object", item);
+        startActivity(intent);
     }
 }

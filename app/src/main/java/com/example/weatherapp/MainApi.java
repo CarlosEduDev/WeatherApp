@@ -1,7 +1,17 @@
 package com.example.weatherapp;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MainApi {
-    private double temp, umidade, pressao;
+
+    @SerializedName("temp")
+    private double temp;
+
+    @SerializedName("pressure")
+    private double pressao;
+
+    @SerializedName("humidity")
+    private double umidade;
 
     public double getTemp() {
         return temp;

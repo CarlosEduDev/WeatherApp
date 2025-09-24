@@ -5,17 +5,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull; // Importação correta
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
 public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.InfoClimaViewHolder> {
-    private final List<String> dadosClima;
 
-    public InfoClimaAdapter(List<String> dadosClima) {
+    private final List<City> dadosClima;
+    private final OnItemClickListener listener; // Usando a nossa interface customizada
+
+    // Interface pra detectar cliques nos itens da lista
+    public interface OnItemClickListener {
+        void onItemClick(City item);
+    }
+
+    public InfoClimaAdapter(List<City> dadosClima, OnItemClickListener listener) {
         this.dadosClima = dadosClima;
+        this.listener = listener;
     }
 
     @NonNull
@@ -27,26 +34,32 @@ public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.Info
     }
 
     @Override
-    public void onBindViewHolder(@androidx.annotation.NonNull InfoClimaAdapter.InfoClimaViewHolder holder, int position) {
-        String info = dadosClima.get(position);
+    public void onBindViewHolder(@NonNull InfoClimaViewHolder holder, int position) {
+        final City info = dadosClima.get(position); // Use 'final' para acessar no clique
 
-        String[] partes = info.split(": ");
-        String tipoInfo = partes[0];
-        String valorInfo = partes[1];
+        // 1. Atualiza a visualização com os dados do objeto CityWeather.
+        holder.tvCidade.setText("Cidade: " + info.getNome());
+        holder.tvTemperatura.setText("Temperatura: " + info.getTemperatura());
+        holder.tvDescricao.setText("Descrição: " + info.getDescricao());
 
-        // Atualiza a visualização com os dados.
-        if (tipoInfo.equals("Cidade")) {
-            holder.tvCidade.setText(info);
-        } else if (tipoInfo.equals("Temperatura")) {
-            holder.tvTemperatura.setText(info);
-        } else if (tipoInfo.equals("Descrição")) {
-            holder.tvDescricao.setText(info);
-        }
+        // 2. Configura o clique para o item completo
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chama o método do listener na MainActivity
+                listener.onItemClick(info);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return dadosClima.size();
+    }
+
+    public void adicionarCidade(City novaCidade){
+        dadosClima.add(0, novaCidade);
+        notifyItemInserted(0);
     }
 
     public static class InfoClimaViewHolder extends RecyclerView.ViewHolder {
