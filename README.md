@@ -1,7 +1,11 @@
 # WeatherApp - Aplicativo de Clima por Cidade
 <!-- INSERÇÃO DA IMAGEM DA TELA PRINCIPAL AQUI -->
+<img width="387" height="868" alt="{E7A7708C-7F84-40E3-9C61-262D1E81871C}" src="https://github.com/user-attachments/assets/e953dbfb-1b87-42fb-878e-8cd0539370c4" />
+<img width="386" height="863" alt="{3C56FFCC-FB97-425B-A679-C7523FCBDD0B}" src="https://github.com/user-attachments/assets/38ed418f-f556-48f2-88c7-5d24c4a3a881" />
 
-Bem-vindo ao repositório do WeatherApp, um aplicativo Android nativo (Java) projetado para buscar e exibir dados climáticos em tempo real de qualquer cidade do mundo.
+
+Bem-vindo ao repositório do WeatherApp, um aplicativo Android nativo (Java) projetado para buscar e exibir dados climáticos em tempo real de qualquer cidade do mundo.</br>
+Este projeto é um aplicativo Android nativo desenvolvido em Java. Ele demonstra a integração com a API OpenWeatherMap para buscar e exibir informações climáticas de qualquer cidade, focando na arquitetura de consumo de API (Retrofit + GSON) e na manipulação de listas eficientes 
 
 O projeto demonstra conceitos cruciais do desenvolvimento Android e integração com APIs externas.
 
