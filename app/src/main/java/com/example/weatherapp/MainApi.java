@@ -5,35 +5,18 @@ import com.google.gson.annotations.SerializedName;
 public class MainApi {
 
     @SerializedName("temp")
-    private double temp;
-
+    private double temperatura; // Mapeia "temp" do JSON
     @SerializedName("pressure")
-    private double pressao;
-
+    private double pressao; // Mapeia "pressure" do JSON
     @SerializedName("humidity")
-    private double umidade;
+    private double umidade; // Mapeia "humidity" do JSON
 
-    public double getTemp() {
-        return temp;
-    }
+    public double getTemperatura() { return temperatura; }
+    public double getPressao() { return pressao; }
+    public double getUmidade() { return umidade; }
 
-    public double getUmidade() {
-        return umidade;
-    }
-
-    public double getPressao() {
-        return pressao;
-    }
-
-    public void setTemp(double temp) {
-        this.temp = temp;
-    }
-
-    public void setUmidade(double umidade) {
-        this.umidade = umidade;
-    }
-
-    public void setPressao(double pressao) {
-        this.pressao = pressao;
-    }
+    // Setters (apenas para referência)
+    public void setTemperatura(double temperatura) { this.temperatura = temperatura; }
+    public void setPressao(double pressao) { this.pressao = pressao; }
+    public void setUmidade(double umidade) { this.umidade = umidade; }
 }

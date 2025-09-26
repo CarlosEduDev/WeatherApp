@@ -8,11 +8,10 @@ public class Wind {
     @SerializedName("deg")
     private int deg;
 
-    public double getSpeed() {
-        return speed;
-    }
+    public double getSpeed() { return speed; }
+    public int getDeg() { return deg; }
 
-    public int getDeg() {
-        return deg;
-    }
+    // Setters
+    public void setSpeed(double speed) { this.speed = speed; }
+    public void setDeg(int deg) { this.deg = deg; }
 }

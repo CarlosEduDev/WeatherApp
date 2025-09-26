@@ -16,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private InfoClimaAdapter adapter;
     private List<City> dadosLista = new ArrayList<>();
 
+    // Use sua chave de API
     private final String API_KEY = "25df25ec8ad5f75a02213a1b324ad0f2";
 
     @Override
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         btnBuscarCidade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cidade = nomeCidade.getText().toString();
+                String cidade = nomeCidade.getText().toString().trim();
 
                 if(cidade.isEmpty()){
                     Toast.makeText(MainActivity.this, "Por favor preencha o campo do nome da cidade.",Toast.LENGTH_SHORT).show();
@@ -84,22 +87,21 @@ public class MainActivity extends AppCompatActivity {
                 );
                 call.enqueue(new Callback<WeatherResponse>() {
                     @Override
-                    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                    public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                         if (response.isSuccessful()) {
                             WeatherResponse weatherData = response.body();
-                            // Verificações adicionais de segurança para evitar NullPointerException
+
+                            // VERIFICAÇÃO DE SEGURANÇA MÁXIMA
                             if (weatherData != null && weatherData.getMain() != null && weatherData.getWeather() != null && !weatherData.getWeather().isEmpty()) {
 
-                                // Acesso seguro aos dados
-                                String nomeCidadeStr = weatherData.getNome() != null ? weatherData.getNome() : "Não Encontrado";
-
-                                String temperaturaStr = String.valueOf(weatherData.getMain().getTemp());
+                                // Preenchimento com segurança, usando os getters da classe MainApi (temperatura, pressao, umidade)
+                                String nomeCidadeStr = weatherData.getName() != null ? weatherData.getName() : cidade;
+                                String temperaturaStr = String.valueOf(weatherData.getMain().getTemperatura());
                                 String descricaoStr = weatherData.getWeather().get(0).getDescription();
 
-                                // CORREÇÃO: Chame os métodos corretos de sua classe MainApi e Wind
-                                String umidadeStr = (weatherData.getMain() != null) ? String.valueOf(weatherData.getMain().getUmidade()) : "N/A";
-                                String pressaoStr = (weatherData.getMain() != null) ? String.valueOf(weatherData.getMain().getPressao()) : "N/A";
-                                String ventoStr = (weatherData.getWind() != null) ? String.valueOf(weatherData.getWind().getSpeed()) : "N/A";
+                                String umidadeStr = String.valueOf(weatherData.getMain().getUmidade());
+                                String pressaoStr = String.valueOf(weatherData.getMain().getPressao());
+                                String ventoStr = weatherData.getWind() != null ? String.valueOf(weatherData.getWind().getSpeed()) : "N/A";
 
                                 City novaCidade = new City(
                                         nomeCidadeStr,
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
                         Log.e("API_CALL", "Falha na requisição: " + t.getMessage());
                         Toast.makeText(MainActivity.this, "Falha na conexão. Verifique sua internet.", Toast.LENGTH_SHORT).show();
                     }
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirTelaDetalhes(City item) {
         Intent intent = new Intent(MainActivity.this, DetalhesActivity.class);
-        intent.putExtra("city_object", item);
+        intent.putExtra("city_object", item); // Passa o objeto City serializável
         startActivity(intent);
     }
 }

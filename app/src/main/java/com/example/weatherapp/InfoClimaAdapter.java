@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull; // Importação correta
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
 public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.InfoClimaViewHolder> {
 
     private final List<City> dadosClima;
-    private final OnItemClickListener listener; // Usando a nossa interface customizada
+    private final OnItemClickListener listener;
 
-    // Interface pra detectar cliques nos itens da lista
+    // Interface para detectar cliques nos itens da lista
     public interface OnItemClickListener {
         void onItemClick(City item);
     }
@@ -35,9 +35,9 @@ public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.Info
 
     @Override
     public void onBindViewHolder(@NonNull InfoClimaViewHolder holder, int position) {
-        final City info = dadosClima.get(position); // Use 'final' para acessar no clique
+        final City info = dadosClima.get(position);
 
-        // 1. Atualiza a visualização com os dados do objeto CityWeather.
+        // 1. Atualiza a visualização com os dados do objeto City.
         holder.tvCidade.setText("Cidade: " + info.getNome());
         holder.tvTemperatura.setText("Temperatura: " + info.getTemperatura());
         holder.tvDescricao.setText("Descrição: " + info.getDescricao());
