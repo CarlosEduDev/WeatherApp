@@ -46,7 +46,6 @@ public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.Info
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chama o método do listener na MainActivity
                 listener.onItemClick(info);
             }
         });
@@ -55,11 +54,6 @@ public class InfoClimaAdapter extends RecyclerView.Adapter<InfoClimaAdapter.Info
     @Override
     public int getItemCount() {
         return dadosClima.size();
-    }
-
-    public void adicionarCidade(City novaCidade){
-        dadosClima.add(0, novaCidade);
-        notifyItemInserted(0);
     }
 
     public static class InfoClimaViewHolder extends RecyclerView.ViewHolder {

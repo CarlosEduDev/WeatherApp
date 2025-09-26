@@ -1,5 +1,7 @@
-package com.example.weatherapp;
+package com.example.weatherapp.weather;
 
+import com.example.weatherapp.MainApi;
+import com.example.weatherapp.Wind;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
@@ -9,18 +11,12 @@ public class WeatherResponse {
     @SerializedName("weather")
     private List<Weather> weather;
     @SerializedName("name")
-    private String name; // Campo 'name' do JSON
+    private String name;
     @SerializedName("wind")
     private Wind wind;
 
     public MainApi getMain() { return main; }
     public List<Weather> getWeather() { return weather; }
-    public String getName() { return name; } // Getter que retorna o nome da cidade
+    public String getName() { return name; }
     public Wind getWind() { return wind; }
-
-    // Setters (apenas para referência)
-    public void setMain(MainApi main) { this.main = main; }
-    public void setWeather(List<Weather> weather) { this.weather = weather; }
-    public void setName(String name) { this.name = name; }
-    public void setWind(Wind wind) { this.wind = wind; }
 }

@@ -1,14 +1,16 @@
-package com.example.weatherapp;
+package com.example.weatherapp.activities;
 
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.weatherapp.City;
+import com.example.weatherapp.R;
 
 public class DetalhesActivity extends AppCompatActivity {
 
@@ -27,6 +29,8 @@ public class DetalhesActivity extends AppCompatActivity {
         TextView tvDetalheDescricao = findViewById(R.id.tvDetalheDescricao);
         TextView tvDetalhesTemperatura = findViewById(R.id.tvDetalheTemperatura);
 
+        Button btnVoltar = findViewById(R.id.btnVoltar);
+
         // 2. Receber o objeto City inteiro
         City cidade = (City) getIntent().getSerializableExtra("city_object");
 
@@ -38,9 +42,13 @@ public class DetalhesActivity extends AppCompatActivity {
             tvDetalhesVento.setText("Velocidade do Vento: " + cidade.getVelocVento());
             tvDetalhesUmidade.setText("Umidade: " + cidade.getUmidade());
             tvDetalhesTemperatura.setText("Temperatura: " + cidade.getTemperatura());
-        } else {
-            // Em caso de erro, exiba uma mensagem no Logcat
-            System.err.println("ERRO: Objeto City não encontrado no Intent. Verifique a MainActivity.");
         }
+
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

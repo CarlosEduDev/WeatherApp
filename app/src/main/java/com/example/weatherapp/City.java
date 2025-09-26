@@ -17,19 +17,11 @@ public class City implements Serializable {
         this.velocVento = velocVento;
     }
 
-    // Getters para a MainActivity e DetalhesActivity
+    // Getters pra usar na MainActivity e DetalhesActivity
     public String getNome() { return nome; }
     public String getTemperatura() { return temperatura; }
     public String getDescricao() { return descricao; }
     public String getUmidade() { return umidade; }
     public String getPressao() { return pressao; }
     public String getVelocVento() { return velocVento; }
-
-    // Setters (boa prática, mas não obrigatórios aqui)
-    public void setNome(String nome) { this.nome = nome; }
-    public void setTemperatura(String temperatura) { this.temperatura = temperatura; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-    public void setUmidade(String umidade) { this.umidade = umidade; }
-    public void setPressao(String pressao) { this.pressao = pressao; }
-    public void setVelocVento(String velocVento) { this.velocVento = velocVento; }
 }

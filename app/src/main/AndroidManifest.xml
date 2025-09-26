@@ -16,11 +16,11 @@
 
         <!-- Mantenha apenas esta declaração para a DetalhesActivity -->
         <activity
-            android:name=".DetalhesActivity"
+            android:name=".activities.DetalhesActivity"
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

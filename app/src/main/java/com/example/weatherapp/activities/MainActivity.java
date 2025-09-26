@@ -1,4 +1,4 @@
-package com.example.weatherapp;
+package com.example.weatherapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.weatherapp.City;
+import com.example.weatherapp.InfoClimaAdapter;
+import com.example.weatherapp.R;
+import com.example.weatherapp.weather.WeatherResponse;
+import com.example.weatherapp.weather.WeatherService;
 
 import org.jspecify.annotations.NonNull;
 
